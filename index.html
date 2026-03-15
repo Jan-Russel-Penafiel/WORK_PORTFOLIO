@@ -78,23 +78,23 @@
     <style>
       /* ===== CV COLOR TOKENS ===== */
       :root {
-        --cv-bg: #0d0d0d;
-        --cv-sidebar: #141414;
+        --cv-bg: #000000;
+        --cv-sidebar: #000000;
         --cv-sidebar-text: #f0f0f0;
         --cv-sidebar-muted: #999999;
         --cv-accent: #e0e0e0;
         --cv-accent-2: #bbbbbb;
-        --cv-main-bg: #1a1a1a;
-        --cv-surface: #1a1a1a;
-        --cv-surface-2: #252525;
+        --cv-main-bg: #000000;
+        --cv-surface: #000000;
+        --cv-surface-2: #000000;
         --cv-border: #333333;
         --cv-text-primary: #f0f0f0;
         --cv-text-muted: #aaaaaa;
         --cv-shadow: 0 4px 24px rgba(0,0,0,0.6);
-        --cv-tag-bg: #222222;
+        --cv-tag-bg: #000000;
         --cv-tag-text: #e0e0e0;
         --cv-divider: #333333;
-        --cv-accent-fg: #111111;
+        --cv-accent-fg: #000000;
       }
       body.light-mode {
         --cv-bg: #f5f5f5;
@@ -143,10 +143,10 @@
         padding: 40px 28px; display: flex; flex-direction: column; gap: 32px;
       }
       #cv-profile-photo {
-        width: 130px; height: 130px; border-radius: 10px;
+        border-radius: 10px;
         border: none; object-fit: cover;
         display: block; margin: 0 auto 16px;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.3s ease, width 0.2s ease, height 0.2s ease;
       }
       .cv-photo-wrap { position: relative; display: inline-block; }
       .cv-name-theme-btn {
@@ -191,6 +191,7 @@
         font-size: 20px; font-weight: 800; font-family: 'Poppins', sans-serif;
         line-height: 1.2; margin-bottom: 4px; color: var(--cv-sidebar-text);
         text-transform: none; letter-spacing: 0;
+        width: fit-content; margin-left: auto; margin-right: auto;
       }
       .cv-title { font-size: 13px; color: var(--cv-sidebar-muted); margin-bottom: 10px; font-weight: 500; }
       .cv-badge {
@@ -332,7 +333,6 @@
         }
         #cv-sidebar { padding: 32px 20px; gap: 28px; }
         #cv-main { padding: 36px 28px; gap: 32px; }
-        #cv-profile-photo { width: 110px; height: 110px; }
         .cv-projects-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
         #cv-main-name { font-size: 28px; }
         #cv-main-title { font-size: 15px; }
@@ -350,7 +350,6 @@
         #cv-main {
           padding: 24px 16px; gap: 28px;
         }
-        #cv-profile-photo { width: 110px; height: 110px; }
         .cv-name { font-size: 18px; }
         .cv-title { font-size: 12px; }
         .cv-badge { font-size: 10px; padding: 3px 10px; }
@@ -398,7 +397,6 @@
       @media (max-width: 430px) {
         #cv-sidebar { padding: 24px 16px; gap: 20px; }
         #cv-main { padding: 20px 14px; gap: 24px; }
-        #cv-profile-photo { width: 100px; height: 100px; }
         .cv-name { font-size: 17px; }
         .cv-projects-grid { gap: 10px; }
         .cv-project-card { padding: 12px; }
@@ -415,7 +413,6 @@
       @media (max-width: 375px) {
         #cv-sidebar { padding: 20px 14px; gap: 18px; }
         #cv-main { padding: 18px 12px; gap: 20px; }
-        #cv-profile-photo { width: 90px; height: 90px; }
         .cv-name { font-size: 16px; }
         .cv-title { font-size: 11px; }
         .cv-contact-row { font-size: 11px; }
@@ -572,11 +569,11 @@
       /* ===== PRESERVED: Gallery Modal ===== */
       #galleryModal .modal-dialog { max-width: 700px; }
       #galleryModal .modal-content {
-        background: #0d0d0d; border: 1px solid rgba(200,200,200,0.3);
+        background: #000000; border: 1px solid rgba(200,200,200,0.3);
         border-radius: 14px; overflow: hidden;
       }
       #galleryModal .modal-header {
-        background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+        background: linear-gradient(135deg, #000000 0%, #000000 100%);
         border-bottom: 1px solid rgba(200,200,200,0.2);
         padding: 10px 16px; display: flex; align-items: center; gap: 10px;
       }
@@ -604,7 +601,7 @@
         font-size: 1.1rem; opacity: 0.7; transition: all 0.2s; padding: 4px; margin-left: 6px;
       }
       #galleryModal .btn-close:hover { opacity: 1; transform: scale(1.15); }
-      #galleryModal .modal-body { padding: 0; background: #080808; position: relative; min-height: 300px; }
+      #galleryModal .modal-body { padding: 0; background: #000000; position: relative; min-height: 300px; }
       .gallery-image-container {
         display: flex; align-items: center; justify-content: center;
         min-height: 300px; max-height: 500px; overflow: hidden; position: relative;
@@ -616,7 +613,7 @@
       }
       .gallery-fade-in { animation: galleryFadeIn 0.3s ease; }
       @keyframes galleryFadeIn { from { opacity: 0; } to { opacity: 1; } }
-      .gallery-bottom-bar { background: #0d0d0d; padding: 8px 14px; border-top: 1px solid rgba(200,200,200,0.15); }
+      .gallery-bottom-bar { background: #000000; padding: 8px 14px; border-top: 1px solid rgba(200,200,200,0.15); }
       .gallery-progress { height: 3px; background: rgba(200,200,200,0.15); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
       .gallery-progress.hidden { display: none; }
       .gallery-progress-bar { height: 100%; background: var(--cv-accent); border-radius: 2px; transition: width 0.1s linear; width: 0%; }
@@ -655,7 +652,7 @@
       #mobileThemeToggle {
         display: none; position: fixed; bottom: 12px; right: 12px;
         width: 44px; height: 44px; border-radius: 50%;
-        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        background: linear-gradient(135deg, #000000 0%, #000000 100%);
         border: 2px solid #ffffff; color: #ffffff; font-size: 1.1rem; cursor: pointer;
         z-index: 9999; align-items: center; justify-content: center;
         transition: all 0.3s ease;
@@ -678,7 +675,7 @@
       #mobileThemeToggle .icon-moon { display: inline; }
       body.light-mode #mobileThemeToggle .icon-sun { display: inline; }
       body.light-mode #mobileThemeToggle .icon-moon { display: none; }
-      body.light-mode #mobileThemeToggle { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border-color: #ffffff; color: #ffffff; box-shadow: 0 0 18px #ffffff40, 0 0 6px #ffffff20 inset; }
+      body.light-mode #mobileThemeToggle { background: #000000; border-color: #ffffff; color: #ffffff; box-shadow: 0 0 18px #ffffff40, 0 0 6px #ffffff20 inset; }
 
       /* ===== Buttons ===== */
       .btn-primary { background: var(--cv-accent); color: var(--cv-accent-fg); border: none; font-weight: 700; box-shadow: 0 0 8px rgba(200,200,200,0.3); }
@@ -1042,14 +1039,14 @@
 
         // Apply saved theme IMMEDIATELY to prevent flash
         var saved = localStorage.getItem("portfolio-theme");
-        if (saved === "light") {
+        if (saved !== "dark") {
           document.body.classList.add("light-mode");
         }
 
         // Set correct profile photo on initial load (instant, no fade)
         var _initPhoto = document.getElementById("cv-profile-photo");
         if (_initPhoto) {
-          _initPhoto.src = (saved === "light") ? window._profilePhotos.light : window._profilePhotos.dark;
+          _initPhoto.src = (saved !== "dark") ? window._profilePhotos.light : window._profilePhotos.dark;
         }
 
         // Preload both images so swap is instant
@@ -1057,6 +1054,28 @@
         _preLight.src = window._profilePhotos.light;
         var _preDark = new Image();
         _preDark.src = window._profilePhotos.dark;
+
+        // Sync profile photo size to match .cv-name text width (square)
+        function syncPhotoToName() {
+          var nameEl = document.querySelector(".cv-name");
+          var photoEl = document.getElementById("cv-profile-photo");
+          if (!nameEl || !photoEl) return;
+          var nameWidth = nameEl.offsetWidth;
+          if (nameWidth > 0) {
+            photoEl.style.width = nameWidth + "px";
+            photoEl.style.height = nameWidth + "px";
+          }
+        }
+        // Run after DOM ready, fonts loaded, and on resize
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", syncPhotoToName);
+        } else {
+          syncPhotoToName();
+        }
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(syncPhotoToName);
+        }
+        window.addEventListener("resize", syncPhotoToName);
 
         // Expose toggle function globally
         window.toggleTheme = function () {
