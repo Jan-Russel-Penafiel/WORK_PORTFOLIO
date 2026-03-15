@@ -146,14 +146,15 @@
         border-radius: 10px;
         border: none; object-fit: cover;
         display: block; margin: 0 auto 16px;
-        transition: opacity 0.3s ease, width 0.2s ease, height 0.2s ease;
+        transition: opacity 0.3s ease;
+        opacity: 0;
       }
       .cv-photo-wrap { position: relative; display: inline-block; }
       .cv-name-theme-btn {
         background: none; border: 1.5px solid var(--cv-accent);
         color: var(--cv-accent); width: 22px; height: 22px; border-radius: 50%;
         display: inline-flex; align-items: center; justify-content: center;
-        cursor: pointer; font-size: 11px; transition: all 0.2s;
+        cursor: pointer; font-size: 11px; transition: background-color 0.2s, color 0.2s, border-color 0.2s;
         padding: 0; flex-shrink: 0; letter-spacing: 0; text-transform: none;
       }
       .cv-name-theme-btn:hover { background: var(--cv-accent); color: var(--cv-accent-fg); }
@@ -258,7 +259,7 @@
       .cv-action-btn {
         display: inline-flex; align-items: center; gap: 6px;
         padding: 8px 18px; border-radius: 6px; font-size: 13px;
-        font-weight: 700; text-decoration: none; transition: all 0.2s;
+        font-weight: 700; text-decoration: none; transition: background-color 0.2s, color 0.2s;
       }
       .cv-action-btn:focus-visible { outline: 2px solid var(--cv-accent); outline-offset: 2px; }
       .cv-btn-primary { background: var(--cv-accent); color: var(--cv-accent-fg); }
@@ -440,7 +441,7 @@
         position: relative; max-width: 100%; width: 100%;
         margin: 0 auto; border-radius: 10px; overflow: hidden;
         background: var(--cv-surface-2); border: 1px solid var(--cv-border);
-        box-shadow: none; transition: all 0.3s ease;
+        box-shadow: none; transition: border-color 0.3s ease, box-shadow 0.3s ease;
       }
       .gallery-carousel-wrapper:hover { border-color: var(--cv-accent); box-shadow: 0 0 20px rgba(200,200,200,0.15); }
 
@@ -469,7 +470,7 @@
         flex-shrink: 0; width: 50px; height: 50px; display: flex;
         align-items: center; justify-content: center;
         background: rgba(200,200,200,0.15); border: 1.5px solid rgba(200,200,200,0.5);
-        border-radius: 50%; opacity: 1; transition: all 0.3s ease;
+        border-radius: 50%; opacity: 1; transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
         backdrop-filter: blur(8px); color: var(--cv-text-primary); cursor: pointer;
       }
       .gallery-side-btn:hover { background: rgba(200,200,200,0.3); box-shadow: 0 0 20px rgba(200,200,200,0.4); transform: scale(1.1); }
@@ -480,7 +481,7 @@
       #photoGalleryCarousel .carousel-indicators [data-bs-target] {
         width: 10px; height: 10px; border-radius: 50%;
         border: 1.5px solid rgba(200,200,200,0.7); background: transparent;
-        opacity: 0.6; transition: all 0.3s ease; margin: 0;
+        opacity: 0.6; transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease; margin: 0;
       }
       #photoGalleryCarousel .carousel-indicators .active {
         background: var(--cv-accent); opacity: 1;
@@ -514,11 +515,13 @@
       /* Gallery Fullscreen Preview */
       .gallery-fullscreen-overlay {
         position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-        background: rgba(0,0,0,0.95); z-index: 99999; display: none;
-        align-items: center; justify-content: center; flex-direction: column;
-        opacity: 0; transition: opacity 0.3s ease; cursor: zoom-out;
+        background: rgba(0,0,0,0.95); z-index: 99999;
+        display: flex; align-items: center; justify-content: center; flex-direction: column;
+        opacity: 0; visibility: hidden; pointer-events: none;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        cursor: zoom-out;
       }
-      .gallery-fullscreen-overlay.active { display: flex; opacity: 1; }
+      .gallery-fullscreen-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
       .gallery-fullscreen-overlay img {
         max-width: 98vw; width: 98vw; max-height: 92vh; object-fit: contain;
         border-radius: 4px; box-shadow: 0 0 60px rgba(200,200,200,0.15);
@@ -529,7 +532,7 @@
         background: rgba(200,200,200,0.15); border: 1.5px solid rgba(200,200,200,0.5);
         color: var(--cv-accent); font-size: 1.6rem; width: 44px; height: 44px;
         border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; z-index: 100000; transition: all 0.3s ease; backdrop-filter: blur(8px);
+        cursor: pointer; z-index: 100000; transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; backdrop-filter: blur(8px);
       }
       .gallery-fullscreen-close:hover { background: rgba(200,200,200,0.3); box-shadow: 0 0 20px rgba(200,200,200,0.4); transform: scale(1.1); }
       .gallery-fullscreen-nav {
@@ -537,7 +540,7 @@
         background: rgba(200,200,200,0.12); border: 1.5px solid rgba(200,200,200,0.4);
         color: var(--cv-accent); width: 48px; height: 48px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center; cursor: pointer;
-        z-index: 100000; transition: all 0.3s ease; backdrop-filter: blur(8px); font-size: 1.2rem;
+        z-index: 100000; transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; backdrop-filter: blur(8px); font-size: 1.2rem;
       }
       .gallery-fullscreen-nav:hover { background: rgba(200,200,200,0.3); box-shadow: 0 0 20px rgba(200,200,200,0.4); transform: translateY(-50%) scale(1.1); }
       .gallery-fullscreen-prev { left: 20px; }
@@ -583,7 +586,7 @@
         background: rgba(200,200,200,0.1); border: 1px solid rgba(200,200,200,0.3);
         color: var(--cv-accent); width: 30px; height: 30px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center; cursor: pointer;
-        transition: all 0.2s; font-size: 0.8rem;
+        transition: background-color 0.2s, transform 0.2s; font-size: 0.8rem;
       }
       .gallery-header-nav button:hover { background: rgba(200,200,200,0.25); transform: scale(1.1); }
       #galleryCounter { color: var(--cv-accent); font-size: 0.8rem; font-weight: 600; min-width: 44px; text-align: center; }
@@ -591,14 +594,13 @@
         background: rgba(200,200,200,0.1); border: 1px solid rgba(200,200,200,0.3);
         color: var(--cv-accent); width: 30px; height: 30px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        cursor: pointer; transition: all 0.2s; font-size: 0.75rem; margin-left: 4px;
+        cursor: pointer; transition: background-color 0.2s; font-size: 0.75rem; margin-left: 4px;
       }
       .gallery-slideshow-btn:hover { background: rgba(200,200,200,0.25); }
-      .gallery-slideshow-btn.active { background: var(--cv-accent); color: var(--cv-accent-fg); animation: slideshowPulse 2s infinite; }
-      @keyframes slideshowPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(200,200,200,0.4); } 50% { box-shadow: 0 0 0 6px rgba(200,200,200,0); } }
+      .gallery-slideshow-btn.active { background: var(--cv-accent); color: var(--cv-accent-fg); box-shadow: 0 0 0 3px rgba(200,200,200,0.3); }
       #galleryModal .btn-close {
         background: none; border: none; color: var(--cv-accent);
-        font-size: 1.1rem; opacity: 0.7; transition: all 0.2s; padding: 4px; margin-left: 6px;
+        font-size: 1.1rem; opacity: 0.7; transition: opacity 0.2s, transform 0.2s; padding: 4px; margin-left: 6px;
       }
       #galleryModal .btn-close:hover { opacity: 1; transform: scale(1.15); }
       #galleryModal .modal-body { padding: 0; background: #000000; position: relative; min-height: 300px; }
@@ -620,24 +622,30 @@
       .gallery-thumbnails { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; scrollbar-width: thin; }
       .gallery-thumb {
         width: 52px; height: 52px; border-radius: 6px; object-fit: cover;
-        border: 2px solid transparent; cursor: pointer; transition: all 0.2s;
+        border: 2px solid transparent; cursor: pointer; transition: opacity 0.2s, transform 0.2s, border-color 0.2s;
         opacity: 0.6; flex-shrink: 0;
       }
       .gallery-thumb:hover { opacity: 0.9; transform: scale(1.05); }
       .gallery-thumb.active { border-color: var(--cv-accent); opacity: 1; box-shadow: 0 0 8px rgba(200,200,200,0.4); }
 
       /* ===== PRESERVED: Theme Toggle Button (Old Navbar) ===== */
-      body.theme-transition,
-      body.theme-transition *,
-      body.theme-transition *::before,
-      body.theme-transition *::after {
-        transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease,
-                    box-shadow 0.35s ease, fill 0.35s ease, stroke 0.35s ease !important;
+      body.theme-transition #cv-sidebar,
+      body.theme-transition #cv-main,
+      body.theme-transition #cv-wrapper,
+      body.theme-transition .navbar,
+      body.theme-transition .section-card,
+      body.theme-transition .project-card,
+      body.theme-transition .cv-sidebar-section,
+      body.theme-transition .cv-contact-row,
+      body.theme-transition .badge-custom,
+      body.theme-transition .social-links a,
+      body.theme-transition footer {
+        transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease !important;
       }
       .theme-toggle-btn {
         width: 32px; height: 32px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        cursor: pointer; transition: all 0.3s ease; position: relative;
+        cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, color 0.3s ease; position: relative;
         overflow: hidden; padding: 0; border: 1.5px solid rgba(200,200,200,0.5);
         background: transparent; color: var(--cv-accent);
       }
@@ -655,9 +663,8 @@
         background: linear-gradient(135deg, #000000 0%, #000000 100%);
         border: 2px solid #ffffff; color: #ffffff; font-size: 1.1rem; cursor: pointer;
         z-index: 9999; align-items: center; justify-content: center;
-        transition: all 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         box-shadow: 0 0 18px #ffffff40, 0 0 6px #ffffff20 inset;
-        animation: themeBtnPulse 2.5s infinite;
       }
       @media (max-width: 768px) {
         #mobileThemeToggle {
@@ -669,7 +676,6 @@
       @media (max-width: 375px) {
         #mobileThemeToggle { width: 40px; height: 40px; font-size: 1rem; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); right: calc(10px + env(safe-area-inset-right, 0px)); }
       }
-      @keyframes themeBtnPulse { 0%, 100% { box-shadow: 0 0 18px #ffffff40, 0 0 6px #ffffff20 inset; } 50% { box-shadow: 0 0 24px #ffffff60, 0 0 10px #ffffff30 inset; } }
       #mobileThemeToggle:hover { transform: scale(1.1); box-shadow: 0 0 28px #ffffff70, 0 0 12px #ffffff40 inset; }
       #mobileThemeToggle .icon-sun { display: none; }
       #mobileThemeToggle .icon-moon { display: inline; }
@@ -694,7 +700,8 @@
     </style>
   </head>
   <body>
-
+    <!-- ANTI-FOUC: apply theme class BEFORE first paint -->
+    <script>(function(){var s=localStorage.getItem('portfolio-theme');if(s!=='dark')document.body.classList.add('light-mode');})()</script>
 
 
     <!-- ===== CV LAYOUT ===== -->
@@ -708,7 +715,8 @@
           <!-- Profile Block -->
           <div id="cv-profile-block" class="text-center">
             <div class="cv-photo-wrap">
-              <img src="./RUSSELS1.png" id="cv-profile-photo" alt="Jan Russel">
+              <img id="cv-profile-photo" alt="Jan Russel">
+              <script>(function(){var s=localStorage.getItem('portfolio-theme');var el=document.getElementById('cv-profile-photo');if(!el)return;el.src=(s!=='dark')?'./RUSSELS.png':'./RUSSELS1.png';el.onload=function(){el.style.opacity='1';el.onload=null;};if(el.complete)el.style.opacity='1';})()</script>
             </div>
             <h1 class="cv-name">Jan Russel E. Pe&ntilde;afiel</h1>
             <p class="cv-title">Freelance Web Developer</p>
@@ -1037,17 +1045,9 @@
           dark: "./RUSSELS1.png"
         };
 
-        // Apply saved theme IMMEDIATELY to prevent flash
+        // Theme was already applied at top of body (anti-FOUC script)
+        // Photo src was set by inline script in the img tag — no re-set needed here
         var saved = localStorage.getItem("portfolio-theme");
-        if (saved !== "dark") {
-          document.body.classList.add("light-mode");
-        }
-
-        // Set correct profile photo on initial load (instant, no fade)
-        var _initPhoto = document.getElementById("cv-profile-photo");
-        if (_initPhoto) {
-          _initPhoto.src = (saved !== "dark") ? window._profilePhotos.light : window._profilePhotos.dark;
-        }
 
         // Preload both images so swap is instant
         var _preLight = new Image();
@@ -1062,8 +1062,14 @@
           if (!nameEl || !photoEl) return;
           var nameWidth = nameEl.offsetWidth;
           if (nameWidth > 0) {
+            // Suppress transition during resize to prevent visual jump
+            var prevTransition = photoEl.style.transition;
+            photoEl.style.transition = "none";
             photoEl.style.width = nameWidth + "px";
             photoEl.style.height = nameWidth + "px";
+            // Force reflow then restore transition
+            photoEl.offsetHeight;
+            photoEl.style.transition = prevTransition;
           }
         }
         // Run after DOM ready, fonts loaded, and on resize
@@ -1075,7 +1081,11 @@
         if (document.fonts && document.fonts.ready) {
           document.fonts.ready.then(syncPhotoToName);
         }
-        window.addEventListener("resize", syncPhotoToName);
+        var _syncPhotoTimer;
+        window.addEventListener("resize", function() {
+          clearTimeout(_syncPhotoTimer);
+          _syncPhotoTimer = setTimeout(syncPhotoToName, 100);
+        });
 
         // Expose toggle function globally
         window.toggleTheme = function () {
@@ -1083,46 +1093,45 @@
           var isLight = !document.body.classList.contains("light-mode");
           var newPhoto = isLight ? window._profilePhotos.light : window._profilePhotos.dark;
 
-          // 1. Fade out the profile photo (300ms matches CSS opacity transition)
+          // Fade out the profile photo
           if (profilePhoto) {
             profilePhoto.style.opacity = "0";
           }
 
-          // 2. After photo fully faded, swap image + toggle theme together
-          setTimeout(function () {
-            // Swap image source while photo is invisible
-            if (profilePhoto) {
-              profilePhoto.src = newPhoto;
-            }
+          // Toggle theme class
+          document.body.classList.add("theme-transition");
+          document.body.classList.toggle("light-mode");
+          localStorage.setItem("portfolio-theme", isLight ? "light" : "dark");
 
-            // Toggle theme class
-            document.body.classList.add("theme-transition");
-            document.body.classList.toggle("light-mode");
-            localStorage.setItem("portfolio-theme", isLight ? "light" : "dark");
+          // Update meta theme-color for mobile browsers
+          var metaTheme = document.querySelector('meta[name="theme-color"]');
+          if (!metaTheme) {
+            metaTheme = document.createElement("meta");
+            metaTheme.name = "theme-color";
+            document.head.appendChild(metaTheme);
+          }
+          metaTheme.content = isLight ? "#ffffff" : "#000000";
 
-            // Update meta theme-color for mobile browsers
-            var metaTheme = document.querySelector('meta[name="theme-color"]');
-            if (!metaTheme) {
-              metaTheme = document.createElement("meta");
-              metaTheme.name = "theme-color";
-              document.head.appendChild(metaTheme);
-            }
-            metaTheme.content = isLight ? "#ffffff" : "#000000";
-
-            // 3. Fade photo back in
-            requestAnimationFrame(function () {
+          // Swap image source and fade back in once loaded
+          if (profilePhoto) {
+            profilePhoto.src = newPhoto;
+            var done = false;
+            function fadeIn() {
+              if (done) return;
+              done = true;
+              profilePhoto.onload = null;
               requestAnimationFrame(function () {
-                if (profilePhoto) {
-                  profilePhoto.style.opacity = "1";
-                }
+                profilePhoto.style.opacity = "1";
               });
-            });
+            }
+            profilePhoto.onload = fadeIn;
+            setTimeout(fadeIn, 200);
+          }
 
-            // Remove transition class after everything settles
-            setTimeout(function () {
-              document.body.classList.remove("theme-transition");
-            }, 400);
-          }, 300);
+          // Remove transition class after everything settles
+          setTimeout(function () {
+            document.body.classList.remove("theme-transition");
+          }, 500);
         };
       })();
     </script>

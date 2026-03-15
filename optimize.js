@@ -70,7 +70,7 @@
 
   function enableLazyImages() {
     const images = document.querySelectorAll(
-      ".project-card img, .carousel-item img, .photo-gallery img, .gallery-modal img"
+      ".project-card img, .gallery-modal img"
     );
 
     if ("loading" in HTMLImageElement.prototype) {
@@ -219,7 +219,7 @@
     var style = document.createElement("style");
     style.id = "optimize-gpu-hints";
     style.textContent = [
-      /* Animate-on-scroll cards */
+      /* Animate-on-scroll cards — only before they appear */
       ".animate-on-scroll { will-change: transform, opacity; }",
       ".animate-on-scroll.visible { will-change: auto; }",
 
@@ -227,30 +227,8 @@
       "#chatWindow { will-change: transform, opacity; }",
       "#chatWindow.open { will-change: auto; }",
 
-      /* Gallery modal transitions */
-      ".gallery-modal { will-change: transform, opacity; }",
-      ".fullscreen-gallery { will-change: transform; }",
-
-      /* Carousel items */
-      ".carousel-item { will-change: transform; backface-visibility: hidden; }",
-
-      /* Profile picture effects */
-      ".profile-picture-container { will-change: transform; }",
-
-      /* Typing animation */
-      ".typing-text { will-change: contents; }",
-
-      /* Navbar transition */
-      ".navbar { will-change: background-color, box-shadow; }",
-
-      /* Smooth all transitions by default with hardware acceleration */
-      ".chat-msg { transform: translateZ(0); }",
-
-      /* Code block wrapper - smoother scroll */
-      ".code-block-wrapper pre { transform: translateZ(0); -webkit-overflow-scrolling: touch; }",
-
-      /* TTS toggle, send button, chatbot toggle — touch feedback */
-      "#ttsToggle, #chatSendBtn, #chatToggleBtn { will-change: transform; }",
+      /* Carousel items — only transform for slide */
+      ".carousel-item { backface-visibility: hidden; }",
 
       /* Smoother hover/active interactions across the entire site */
       ".project-card { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1); }",
@@ -710,25 +688,10 @@
    * =================================================================== */
 
   function upgradeToPassiveListeners() {
-    // Patch addEventListener globally for touch/wheel events that don't
-    // call preventDefault — the browser can then optimise scroll jank.
-    // We only apply this to new listeners going forward.
-    var origAdd = EventTarget.prototype.addEventListener;
-    var passiveEvents = { touchstart: 1, touchmove: 1, wheel: 1, scroll: 1 };
-
-    EventTarget.prototype.addEventListener = function (type, fn, opts) {
-      if (passiveEvents[type] && opts === undefined) {
-        opts = { passive: true };
-      } else if (
-        passiveEvents[type] &&
-        typeof opts === "object" &&
-        opts.passive === undefined &&
-        !opts._noPassive
-      ) {
-        opts.passive = true;
-      }
-      return origAdd.call(this, type, fn, opts);
-    };
+    // Removed: global EventTarget.prototype.addEventListener patching caused
+    // Bootstrap carousel touch handlers to silently break (passive listeners
+    // cannot call preventDefault, which Bootstrap's swipe detection requires).
+    // Individual listeners that need passive are already marked at their call sites.
   }
 
   /* ===================================================================
@@ -775,22 +738,18 @@
     themeStyle.id = "optimize-theme-transitions";
     themeStyle.textContent = [
       /* ── Master transition applied only during the switch ── */
-      "body.theme-transition,",
-      "body.theme-transition *,",
-      "body.theme-transition *::before,",
-      "body.theme-transition *::after {",
+      "body.theme-transition #cv-sidebar,",
+      "body.theme-transition #cv-main,",
+      "body.theme-transition #cv-wrapper,",
+      "body.theme-transition .section-card,",
+      "body.theme-transition .project-card,",
+      "body.theme-transition .highlight-box,",
+      "body.theme-transition .quote-box,",
+      "body.theme-transition footer {",
       "  transition:",
       "    background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),",
-      "    background 0.5s cubic-bezier(0.4, 0, 0.2, 1),",
       "    color 0.45s cubic-bezier(0.4, 0, 0.2, 1),",
-      "    border-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),",
-      "    box-shadow 0.55s cubic-bezier(0.4, 0, 0.2, 1),",
-      "    text-shadow 0.45s cubic-bezier(0.4, 0, 0.2, 1),",
-      "    fill 0.45s cubic-bezier(0.4, 0, 0.2, 1),",
-      "    stroke 0.45s cubic-bezier(0.4, 0, 0.2, 1),",
-      "    filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),",
-      "    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),",
-      "    outline-color 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;",
+      "    border-color 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;",
       "}",
 
       /* ── Staggered cascade: sections animate in order ── */
@@ -964,8 +923,6 @@
       var allBtns = document.querySelectorAll(".theme-toggle-btn, #mobileThemeToggle");
       allBtns.forEach(function (b) {
         b.classList.remove("theme-switching");
-        // Force reflow to restart animation
-        void b.offsetWidth;
         b.classList.add("theme-switching");
       });
 
@@ -1003,6 +960,16 @@
 
     // ── Core switch logic (extracted for reuse) ───────────────────
     function applyThemeSwitch() {
+      // Fade profile photo out, swap src, then fade back in
+      var photo = document.getElementById("cv-profile-photo");
+      var willBeLight = !document.body.classList.contains("light-mode");
+      var photos = window._profilePhotos || { light: "./RUSSELS.png", dark: "./RUSSELS1.png" };
+      var newSrc = willBeLight ? photos.light : photos.dark;
+
+      if (photo) {
+        photo.style.opacity = "0";
+      }
+
       document.body.classList.toggle("light-mode");
       var isLight = document.body.classList.contains("light-mode");
       localStorage.setItem("portfolio-theme", isLight ? "light" : "dark");
@@ -1015,6 +982,23 @@
         document.head.appendChild(metaTheme);
       }
       metaTheme.content = isLight ? "#ffffff" : "#000000";
+
+      // Swap photo src while invisible, then fade back in on load
+      if (photo) {
+        photo.src = newSrc;
+        var done = false;
+        function fadeIn() {
+          if (done) return;
+          done = true;
+          photo.onload = null;
+          requestAnimationFrame(function () {
+            photo.style.opacity = "1";
+          });
+        }
+        photo.onload = fadeIn;
+        // Fallback in case image is cached and onload doesn't fire
+        setTimeout(fadeIn, 150);
+      }
     }
   }
 
@@ -1151,11 +1135,10 @@
     var style = document.createElement("style");
     style.id = "optimize-ui-transitions";
     style.textContent = [
-      /* ── Global smooth transition defaults ── */
+      /* ── Global smooth transition defaults (scoped to interaction to prevent load flicker) ── */
       "a, button, input, textarea, select {",
       "  transition: color 0.25s ease, background-color 0.25s ease,",
-      "    border-color 0.25s ease, box-shadow 0.25s ease,",
-      "    opacity 0.25s ease, transform 0.25s ease;",
+      "    border-color 0.25s ease;",
       "}",
 
       /* ── Hover micro-interactions ── */
@@ -1309,54 +1292,10 @@
 
   /* ===================================================================
    *  PROFILE PHOTO SMOOTH THEME SWITCH
-   *  Fades the profile photo out, swaps its src, then fades it back in
-   *  whenever the dark/light theme is toggled.
+   *  Handled entirely inside optimizeThemeToggle → applyThemeSwitch.
+   *  initProfilePhotoSwitch intentionally removed to prevent double-wrap
+   *  race condition that caused photo flickering.
    * =================================================================== */
-
-  function initProfilePhotoSwitch() {
-    var photo = document.getElementById("cv-profile-photo");
-    if (!photo) return;
-
-    var LIGHT_SRC = "./RUSSELS.png";
-    var DARK_SRC  = "./RUSSELS1.png";
-
-    // Ensure GPU-composited opacity transitions
-    photo.style.transition = "opacity 0.35s ease";
-    photo.style.willChange  = "opacity";
-
-    // Sync to current theme immediately (no flash)
-    photo.src = document.body.classList.contains("light-mode") ? LIGHT_SRC : DARK_SRC;
-
-    // Wrap window.toggleTheme: fade out → swap → fade in
-    var _orig = window.toggleTheme;
-    if (typeof _orig !== "function") return;
-
-    window.toggleTheme = function (event) {
-      // Determine target theme BEFORE the async toggle runs
-      var willBeLight = !document.body.classList.contains("light-mode");
-      var newSrc = willBeLight ? LIGHT_SRC : DARK_SRC;
-
-      photo.style.opacity = "0";
-      setTimeout(function () {
-        // Swap photo while invisible, using the pre-computed src
-        photo.src = newSrc;
-
-        // Call the enhanced toggle (may be async via rAF / View Transitions)
-        _orig(event);
-
-        // Fade back in as soon as the new image loads (200 ms fallback)
-        var done = false;
-        function restore() {
-          if (done) return;
-          done = true;
-          photo.onload = null;
-          photo.style.opacity = "1";
-        }
-        photo.onload = restore;
-        setTimeout(restore, 200);
-      }, 180);
-    };
-  }
 
   /* ===================================================================
    *  INIT — Run all optimizations
@@ -1385,7 +1324,6 @@
     optimizeCodeDetection();
     optimizeCreateCodeBlock();
     optimizeThemeToggle();
-    initProfilePhotoSwitch();
 
     // Heavy patches (may clear intervals, modify prototypes)
     killScrollPollInterval();
