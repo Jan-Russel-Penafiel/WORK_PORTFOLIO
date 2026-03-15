@@ -1,0 +1,1302 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-visual"
+    />
+    <meta name="format-detection" content="telephone=no,email=no,address=no" />
+    <title>Jan Russel E. Peñafiel - Freelance Web Developer</title>
+
+    <!-- Force open in default browser instead of in-app browsers (Messenger, Facebook, Instagram, etc.) -->
+    <script>
+      (function () {
+        var ua = navigator.userAgent || navigator.vendor || window.opera;
+        // Detect common in-app browsers
+        var isInApp =
+          /FBAN|FBAV|FB_IAB|FBIOS|Instagram|Messenger|Line\/|Twitter|Snapchat|MicroMessenger|WeChat|TikTok|BytedanceWebview|Musical_ly/i.test(
+            ua,
+          );
+        if (isInApp) {
+          // Try intent:// for Android (opens in Chrome/default browser)
+          var url = window.location.href;
+          if (/android/i.test(ua)) {
+            var intentUrl =
+              "intent://" +
+              url.replace(/^https?:\/\//, "") +
+              "#Intent;scheme=https;action=android.intent.action.VIEW;end;";
+            window.location.href = intentUrl;
+          } else {
+            // For iOS: try opening in Safari via a workaround
+            // window.open won't work in most in-app browsers, but we can try
+            window.location.href =
+              "x-safari-https://" + url.replace(/^https?:\/\//, "");
+            // Fallback: show a prompt to the user
+            setTimeout(function () {
+              if (!document.hidden) {
+                var overlay = document.createElement("div");
+                overlay.style.cssText =
+                  "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,10,15,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;text-align:center;font-family:Poppins,sans-serif;";
+                overlay.innerHTML =
+                  '<div style="color:#ffffff;font-size:1.3rem;font-weight:700;margin-bottom:16px;">Open in Browser</div>' +
+                  '<div style="color:#e0e0e0;font-size:0.95rem;margin-bottom:20px;">For the best experience, please open this page in your default browser.</div>' +
+                  '<div style="color:#aaa;font-size:0.85rem;">Tap the <b style="color:#ffffff;">⋯</b> or <b style="color:#ffffff;">Share</b> button, then choose <b style="color:#ffffff;">"Open in Browser"</b> or <b style="color:#ffffff;">"Open in Safari/Chrome"</b>.</div>';
+                document.body.appendChild(overlay);
+              }
+            }, 1500);
+          }
+        }
+      })();
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="AsyncX.png" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="libs/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="libs/fontawesome/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="libs/fonts/fonts.css"
+      rel="stylesheet"
+    />
+    <!-- Highlight.js for Code Syntax Highlighting -->
+    <link
+      rel="stylesheet"
+      href="libs/highlightjs/styles/atom-one-dark.min.css"
+    />
+    <script src="libs/highlightjs/highlight.min.js"></script>
+
+    <style>
+      /* ===== CV COLOR TOKENS ===== */
+      :root {
+        --cv-bg: #0d0d0d;
+        --cv-sidebar: #141414;
+        --cv-sidebar-text: #f0f0f0;
+        --cv-sidebar-muted: #999999;
+        --cv-accent: #e0e0e0;
+        --cv-accent-2: #bbbbbb;
+        --cv-main-bg: #1a1a1a;
+        --cv-surface: #1a1a1a;
+        --cv-surface-2: #252525;
+        --cv-border: #333333;
+        --cv-text-primary: #f0f0f0;
+        --cv-text-muted: #aaaaaa;
+        --cv-shadow: 0 4px 24px rgba(0,0,0,0.6);
+        --cv-tag-bg: #222222;
+        --cv-tag-text: #e0e0e0;
+        --cv-divider: #333333;
+        --cv-accent-fg: #111111;
+      }
+      body.light-mode {
+        --cv-bg: #f5f5f5;
+        --cv-sidebar: #f5f5f5;
+        --cv-sidebar-text: #0d0d0d;
+        --cv-sidebar-muted: #666666;
+        --cv-accent: #1a1a1a;
+        --cv-accent-2: #333333;
+        --cv-main-bg: #ffffff;
+        --cv-surface: #ffffff;
+        --cv-surface-2: #f5f5f5;
+        --cv-border: #dddddd;
+        --cv-text-primary: #0d0d0d;
+        --cv-text-muted: #666666;
+        --cv-shadow: 0 4px 24px rgba(0,0,0,0.1);
+        --cv-tag-bg: #eeeeee;
+        --cv-tag-text: #1a1a1a;
+        --cv-divider: #dddddd;
+        --cv-accent-fg: #ffffff;
+      }
+
+      /* ===== BASE STYLES ===== */
+      body {
+        font-family: 'Poppins', sans-serif;
+        line-height: 1.6;
+        background: var(--cv-bg);
+        color: var(--cv-text-primary);
+        font-size: 14px;
+        margin: 0;
+      }
+
+      /* ===== CV WRAPPER ===== */
+      #cv-wrapper {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        overflow: hidden; box-shadow: var(--cv-shadow);
+      }
+
+      /* ===== CV SIDEBAR ===== */
+      #cv-sidebar {
+        background: var(--cv-sidebar); color: var(--cv-sidebar-text);
+        padding: 40px 28px; display: flex; flex-direction: column; gap: 32px;
+      }
+      #cv-profile-photo {
+        width: 130px; height: 130px; border-radius: 10px;
+        border: none; object-fit: cover;
+        display: block; margin: 0 auto 16px;
+        transition: opacity 0.3s ease;
+      }
+      .cv-photo-wrap { position: relative; display: inline-block; }
+      .cv-name-theme-btn {
+        background: none; border: 1.5px solid var(--cv-accent);
+        color: var(--cv-accent); width: 22px; height: 22px; border-radius: 50%;
+        display: inline-flex; align-items: center; justify-content: center;
+        cursor: pointer; font-size: 11px; transition: all 0.2s;
+        padding: 0; flex-shrink: 0; letter-spacing: 0; text-transform: none;
+      }
+      .cv-name-theme-btn:hover { background: var(--cv-accent); color: var(--cv-accent-fg); }
+      .cv-name-theme-btn .icon-moon { display: inline; }
+      .cv-name-theme-btn .icon-sun { display: none; }
+      body.light-mode .cv-name-theme-btn .icon-moon { display: none; }
+      body.light-mode .cv-name-theme-btn .icon-sun { display: inline; }
+      body.light-mode .cv-name-theme-btn { background: #f5f5f5; border-color: #333333; color: #333333; }
+      /* Light mode: sidebar bg is now light (#f5f5f5), so all text must be dark.
+         Scope accent/divider tokens to their dark values for the light sidebar. */
+      body.light-mode #cv-sidebar {
+        color: #0d0d0d;
+        --cv-accent: #1a1a1a;
+        --cv-accent-2: #333333;
+        --cv-sidebar-text: #0d0d0d;
+        --cv-sidebar-muted: #666666;
+        --cv-divider: #dddddd;
+      }
+      body.light-mode #cv-sidebar .cv-sidebar-heading { color: #1a1a1a; border-bottom-color: #dddddd; }
+      body.light-mode #cv-sidebar .cv-badge { background: #1a1a1a; color: #ffffff; border: 1px solid transparent; }
+      body.light-mode #cv-sidebar .cv-skill-tag { background: rgba(0,0,0,0.06); color: #1a1a1a; border-color: rgba(0,0,0,0.25); }
+      body.light-mode #cv-sidebar .cv-name { color: #0d0d0d; }
+      body.light-mode #cv-sidebar .cv-title { color: #666666; }
+      body.light-mode #cv-sidebar .cv-contact-row { color: #0d0d0d; }
+      body.light-mode #cv-sidebar .cv-contact-row i { color: #1a1a1a; }
+      body.light-mode #cv-sidebar .cv-contact-row a { color: #0d0d0d; }
+      body.light-mode #cv-sidebar .cv-contact-row a:hover { color: #444444; }
+      body.light-mode #cv-sidebar .cv-edu-degree { color: #0d0d0d; }
+      body.light-mode #cv-sidebar .cv-edu-school { color: #666666; }
+      body.light-mode #cv-sidebar .cv-edu-year { color: #333333; }
+      body.light-mode #cv-sidebar .cv-quick-link { color: #0d0d0d; }
+      body.light-mode #cv-sidebar .cv-quick-link:hover { color: #444444; }
+      body.light-mode #cv-sidebar .cv-quick-link i { color: #1a1a1a; }
+      .cv-name {
+        font-size: 20px; font-weight: 800; font-family: 'Poppins', sans-serif;
+        line-height: 1.2; margin-bottom: 4px; color: var(--cv-sidebar-text);
+        text-transform: none; letter-spacing: 0;
+      }
+      .cv-title { font-size: 13px; color: var(--cv-sidebar-muted); margin-bottom: 10px; font-weight: 500; }
+      .cv-badge {
+        background: var(--cv-accent); color: var(--cv-accent-fg); border-radius: 50px;
+        padding: 3px 12px; font-size: 11px; font-weight: 700;
+        letter-spacing: 0.5px; text-transform: uppercase; display: inline-block;
+      }
+      .cv-sidebar-heading {
+        font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+        text-transform: uppercase; color: var(--cv-accent); margin-bottom: 12px;
+        padding-bottom: 8px; border-bottom: 1px solid var(--cv-divider);
+        font-family: 'Poppins', sans-serif;
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .cv-contact-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--cv-sidebar-text); padding: 5px 0; }
+      .cv-contact-row i { width: 16px; color: var(--cv-accent); flex-shrink: 0; text-align: center; font-size: 13px; }
+      .cv-contact-row a { color: var(--cv-sidebar-text); text-decoration: none; }
+      .cv-contact-row a:hover { color: var(--cv-accent); text-decoration: underline; }
+      .cv-edu-degree { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+      .cv-edu-school { font-size: 12px; color: var(--cv-sidebar-muted); margin: 0; }
+      .cv-edu-year { font-size: 11px; color: var(--cv-accent); margin-top: 2px; }
+      .cv-skills-list { display: flex; flex-wrap: wrap; gap: 6px; }
+      .cv-skill-tag {
+        background: rgba(200,200,200,0.15); color: var(--cv-accent);
+        border: 1px solid var(--cv-accent); border-radius: 50px;
+        padding: 3px 10px; font-size: 11px; font-weight: 600;
+      }
+      .cv-quick-link {
+        display: flex; align-items: center; gap: 8px; padding: 8px 0;
+        font-size: 13px; color: var(--cv-sidebar-text); text-decoration: none;
+        transition: color 0.2s; border: none;
+      }
+      .cv-quick-link:hover { color: var(--cv-accent); }
+      .cv-quick-link:focus-visible { outline: 2px solid var(--cv-accent); outline-offset: 2px; }
+      .cv-quick-link i { width: 16px; color: var(--cv-accent); text-align: center; }
+
+      /* ===== CV MAIN CONTENT ===== */
+      #cv-main {
+        background: var(--cv-main-bg); padding: 48px 40px;
+        display: flex; flex-direction: column; gap: 40px; overflow: hidden;
+      }
+      .cv-section { scroll-margin-top: 16px; }
+      .cv-section-title {
+        display: flex; align-items: center; gap: 10px;
+        font-size: 13px; font-weight: 800; letter-spacing: 2px;
+        text-transform: uppercase; color: var(--cv-accent); margin-bottom: 20px;
+        font-family: 'Poppins', sans-serif;
+      }
+      .cv-section-title::after {
+        content: ''; flex: 1; height: 2px;
+        background: linear-gradient(to right, var(--cv-accent), transparent); border-radius: 2px;
+      }
+      .cv-section-title i { font-size: 14px; }
+
+      /* Header Banner */
+      #cv-main-name {
+        font-size: 36px; font-weight: 800; color: var(--cv-text-primary);
+        font-family: 'Poppins', sans-serif; margin-bottom: 4px;
+        text-transform: none; letter-spacing: 0;
+      }
+      #cv-main-title { font-size: 16px; color: var(--cv-accent); font-weight: 600; margin-bottom: 10px; }
+      #cv-main-tagline { font-size: 14px; color: var(--cv-text-muted); line-height: 1.7; margin-bottom: 20px; }
+      .cv-action-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 8px 18px; border-radius: 6px; font-size: 13px;
+        font-weight: 700; text-decoration: none; transition: all 0.2s;
+      }
+      .cv-action-btn:focus-visible { outline: 2px solid var(--cv-accent); outline-offset: 2px; }
+      .cv-btn-primary { background: var(--cv-accent); color: var(--cv-accent-fg); }
+      .cv-btn-primary:hover { background: var(--cv-accent-2); color: var(--cv-accent-fg); }
+      .cv-btn-outline { border: 1.5px solid var(--cv-accent); color: var(--cv-accent); background: transparent; }
+      .cv-btn-outline:hover { background: var(--cv-accent); color: var(--cv-accent-fg); }
+      #cv-main-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+      /* About */
+      .cv-about-body p { font-size: 14px; line-height: 1.8; color: var(--cv-text-muted); margin-bottom: 12px; }
+      .cv-bullet-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; margin: 0; }
+      .cv-bullet-list li { font-size: 14px; color: var(--cv-text-muted); padding-left: 20px; position: relative; }
+      .cv-bullet-list li::before { content: "\25B8"; color: var(--cv-accent); position: absolute; left: 0; }
+
+      /* Experience */
+      .cv-exp-card { border-left: 3px solid var(--cv-accent); padding: 0 0 0 20px; margin-left: 6px; }
+      .cv-exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+      .cv-exp-role { font-size: 16px; font-weight: 700; color: var(--cv-text-primary); margin: 0; font-family: 'Poppins', sans-serif; text-transform: none; letter-spacing: 0; }
+      .cv-exp-place { font-size: 13px; color: var(--cv-text-muted); margin: 2px 0 0; }
+      .cv-exp-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+      .cv-exp-date { font-size: 12px; color: var(--cv-accent); }
+      .cv-badge-outline { border: 1px solid var(--cv-accent); color: var(--cv-accent); border-radius: 50px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
+
+      /* Projects */
+      .cv-projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .cv-project-card {
+        background: var(--cv-surface-2); border: 1px solid var(--cv-border);
+        border-top: 3px solid var(--cv-accent); border-radius: 8px;
+        padding: 18px; transition: box-shadow 0.2s, transform 0.2s; position: relative;
+      }
+      .cv-project-card:hover { box-shadow: 0 8px 24px rgba(200,200,200,0.15); transform: translateY(-2px); }
+      .cv-project-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+      .cv-project-title { font-size: 14px; font-weight: 700; color: var(--cv-text-primary); margin: 0; font-family: 'Poppins', sans-serif; text-transform: none; letter-spacing: 0; }
+      .cv-project-badges { display: flex; flex-wrap: wrap; gap: 4px; }
+      .cv-badge-sm { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 50px; }
+      .cv-badge-blue { background: rgba(200,200,200,0.15); color: var(--cv-accent); }
+      .cv-badge-green { background: rgba(200,200,200,0.1); color: var(--cv-text-muted); }
+      .cv-badge-yellow { background: rgba(200,200,200,0.06); color: var(--cv-text-muted); }
+      .cv-project-bullets { margin: 0; }
+      .cv-project-bullets li { font-size: 12px; }
+
+      /* Roadmap Timeline */
+      .cv-timeline { position: relative; padding-left: 28px; }
+      .cv-timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--cv-border); }
+      .cv-timeline-item { position: relative; margin-bottom: 28px; }
+      .cv-timeline-dot { position: absolute; left: -24px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--cv-border); border: 2px solid var(--cv-surface); }
+      .cv-timeline-active .cv-timeline-dot { background: var(--cv-accent); box-shadow: 0 0 0 4px rgba(200,200,200,0.2); }
+      .cv-timeline-period { font-size: 11px; font-weight: 700; color: var(--cv-accent); text-transform: uppercase; letter-spacing: 1px; }
+      .cv-timeline-title { font-size: 14px; font-weight: 700; color: var(--cv-text-primary); margin: 4px 0; font-family: 'Poppins', sans-serif; text-transform: none; letter-spacing: 0; }
+      .cv-timeline-desc { font-size: 13px; color: var(--cv-text-muted); line-height: 1.6; margin: 0; }
+
+      /* Tech Stack */
+      .cv-tech-group { margin-bottom: 18px; }
+      .cv-tech-category { font-size: 12px; font-weight: 700; color: var(--cv-text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Poppins', sans-serif; }
+      .cv-tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+      /* Gallery */
+      .cv-gallery-subtitle { font-size: 13px; color: var(--cv-text-muted); margin-bottom: 16px; }
+
+      /* Footer */
+      #cv-footer { text-align: center; padding: 20px; font-size: 12px; color: var(--cv-text-muted); border-top: 1px solid var(--cv-border); }
+
+
+      /* ===== DESKTOP LAYOUT ===== */
+      @media (min-width: 1024px) {
+      }
+
+      /* ===== MOBILE LAYOUT ===== */
+      @media (max-width: 1023px) {
+        #cv-wrapper {
+          display: flex; flex-direction: column;
+          margin: 0; border-radius: 0; box-shadow: none;
+        }
+        #cv-sidebar { padding: 28px 20px; }
+        #cv-main { padding: 28px 16px; }
+        .cv-projects-grid { grid-template-columns: 1fr; }
+        #cv-main-name { font-size: 24px; }
+        #cv-main-actions { flex-direction: column; }
+        .cv-action-btn { justify-content: center; }
+        #cv-header-banner { text-align: center; }
+        #cv-main-actions { align-items: stretch; }
+      }
+
+      /* ===== PRESERVED: Photo Gallery Section ===== */
+      #gallery { padding: 0; width: 100%; }
+      #gallery .gallery-section-header { margin-bottom: 2rem; }
+      #gallery .gallery-section-header p { color: var(--cv-text-muted); font-size: 1.05rem; }
+
+      .gallery-carousel-wrapper {
+        position: relative; max-width: 100%; width: 100%;
+        margin: 0 auto; border-radius: 10px; overflow: hidden;
+        background: var(--cv-surface-2); border: 1px solid var(--cv-border);
+        box-shadow: none; transition: all 0.3s ease;
+      }
+      .gallery-carousel-wrapper:hover { border-color: var(--cv-accent); box-shadow: 0 0 20px rgba(200,200,200,0.15); }
+
+      #photoGalleryCarousel.carousel-fade .carousel-item { opacity: 0; transition: opacity 0.6s ease-in-out; }
+      #photoGalleryCarousel.carousel-fade .carousel-item.active { opacity: 1; }
+      #photoGalleryCarousel .carousel-item img {
+        max-width: 100%; max-height: 420px; margin-left: auto; margin-right: auto;
+        object-fit: cover; width: 100%; height: 420px; display: block; transition: transform 0.5s ease;
+      }
+
+      .gallery-carousel-wrapper::before, .gallery-carousel-wrapper::after {
+        content: ''; position: absolute; top: 0; bottom: 0; width: 80px;
+        z-index: 2; pointer-events: none; opacity: 0; transition: opacity 0.3s ease;
+      }
+      .gallery-carousel-wrapper::before { left: 0; background: linear-gradient(to right, rgba(0,0,0,0.4), transparent); }
+      .gallery-carousel-wrapper::after { right: 0; background: linear-gradient(to left, rgba(0,0,0,0.4), transparent); }
+      .gallery-carousel-wrapper:hover::before, .gallery-carousel-wrapper:hover::after { opacity: 1; }
+
+      .gallery-outer-container {
+        display: flex; align-items: center; justify-content: center;
+        max-width: 100%; margin: 0 auto; gap: 14px; padding: 0;
+      }
+      .gallery-outer-container .gallery-carousel-wrapper { flex: 1; max-width: 100%; margin: 0; }
+
+      .gallery-side-btn {
+        flex-shrink: 0; width: 50px; height: 50px; display: flex;
+        align-items: center; justify-content: center;
+        background: rgba(200,200,200,0.15); border: 1.5px solid rgba(200,200,200,0.5);
+        border-radius: 50%; opacity: 1; transition: all 0.3s ease;
+        backdrop-filter: blur(8px); color: var(--cv-text-primary); cursor: pointer;
+      }
+      .gallery-side-btn:hover { background: rgba(200,200,200,0.3); box-shadow: 0 0 20px rgba(200,200,200,0.4); transform: scale(1.1); }
+      .gallery-side-btn .carousel-control-prev-icon,
+      .gallery-side-btn .carousel-control-next-icon { width: 18px; height: 18px; }
+
+      #photoGalleryCarousel .carousel-indicators { bottom: 12px; margin-bottom: 0; z-index: 3; gap: 6px; }
+      #photoGalleryCarousel .carousel-indicators [data-bs-target] {
+        width: 10px; height: 10px; border-radius: 50%;
+        border: 1.5px solid rgba(200,200,200,0.7); background: transparent;
+        opacity: 0.6; transition: all 0.3s ease; margin: 0;
+      }
+      #photoGalleryCarousel .carousel-indicators .active {
+        background: var(--cv-accent); opacity: 1;
+        box-shadow: 0 0 8px rgba(200,200,200,0.6); transform: scale(1.2);
+      }
+
+
+      @media (max-width: 768px) {
+        #photoGalleryCarousel .carousel-item img { max-height: 55vw; height: 55vw; }
+        .gallery-side-btn { width: 38px; height: 38px; }
+      }
+
+      /* Gallery Fullscreen Preview */
+      .gallery-fullscreen-overlay {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.95); z-index: 99999; display: none;
+        align-items: center; justify-content: center; flex-direction: column;
+        opacity: 0; transition: opacity 0.3s ease; cursor: zoom-out;
+      }
+      .gallery-fullscreen-overlay.active { display: flex; opacity: 1; }
+      .gallery-fullscreen-overlay img {
+        max-width: 98vw; width: 98vw; max-height: 92vh; object-fit: contain;
+        border-radius: 4px; box-shadow: 0 0 60px rgba(200,200,200,0.15);
+        transition: opacity 0.25s ease, transform 0.3s ease; user-select: none; -webkit-user-drag: none;
+      }
+      .gallery-fullscreen-close {
+        position: absolute; top: 18px; right: 24px;
+        background: rgba(200,200,200,0.15); border: 1.5px solid rgba(200,200,200,0.5);
+        color: var(--cv-accent); font-size: 1.6rem; width: 44px; height: 44px;
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; z-index: 100000; transition: all 0.3s ease; backdrop-filter: blur(8px);
+      }
+      .gallery-fullscreen-close:hover { background: rgba(200,200,200,0.3); box-shadow: 0 0 20px rgba(200,200,200,0.4); transform: scale(1.1); }
+      .gallery-fullscreen-nav {
+        position: absolute; top: 50%; transform: translateY(-50%);
+        background: rgba(200,200,200,0.12); border: 1.5px solid rgba(200,200,200,0.4);
+        color: var(--cv-accent); width: 48px; height: 48px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; cursor: pointer;
+        z-index: 100000; transition: all 0.3s ease; backdrop-filter: blur(8px); font-size: 1.2rem;
+      }
+      .gallery-fullscreen-nav:hover { background: rgba(200,200,200,0.3); box-shadow: 0 0 20px rgba(200,200,200,0.4); transform: translateY(-50%) scale(1.1); }
+      .gallery-fullscreen-prev { left: 20px; }
+      .gallery-fullscreen-next { right: 20px; }
+      body.light-mode .gallery-fullscreen-overlay { background: rgba(255,255,255,0.97); }
+      body.light-mode .gallery-fullscreen-overlay img { box-shadow: 0 0 60px rgba(0,0,0,0.15); }
+      body.light-mode .gallery-fullscreen-close,
+      body.light-mode .gallery-fullscreen-nav { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.2); color: #1c1e21; }
+      body.light-mode .gallery-fullscreen-close:hover,
+      body.light-mode .gallery-fullscreen-nav:hover { background: rgba(0,0,0,0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+      body.light-mode .gallery-side-btn { color: #000; border-color: #000; background: rgba(0,0,0,0.08); }
+      body.light-mode .gallery-side-btn .carousel-control-prev-icon,
+      body.light-mode .gallery-side-btn .carousel-control-next-icon { filter: invert(1); }
+
+      @media (max-width: 768px) {
+        .gallery-fullscreen-nav { width: 38px; height: 38px; font-size: 1rem; }
+        .gallery-fullscreen-prev { left: 10px; }
+        .gallery-fullscreen-next { right: 10px; }
+        .gallery-fullscreen-close { top: 12px; right: 14px; width: 38px; height: 38px; font-size: 1.3rem; }
+        .gallery-fullscreen-overlay img { max-width: 100vw; width: 100vw; max-height: 90vh; border-radius: 0; }
+      }
+
+
+
+      /* ===== PRESERVED: Gallery Modal ===== */
+      #galleryModal .modal-dialog { max-width: 700px; }
+      #galleryModal .modal-content {
+        background: #0d0d0d; border: 1px solid rgba(200,200,200,0.3);
+        border-radius: 14px; overflow: hidden;
+      }
+      #galleryModal .modal-header {
+        background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+        border-bottom: 1px solid rgba(200,200,200,0.2);
+        padding: 10px 16px; display: flex; align-items: center; gap: 10px;
+      }
+      #galleryModal .modal-title { font-size: 0.85rem; color: var(--cv-accent); letter-spacing: 1.5px; font-weight: 700; }
+      .gallery-header-nav { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+      .gallery-header-nav button {
+        background: rgba(200,200,200,0.1); border: 1px solid rgba(200,200,200,0.3);
+        color: var(--cv-accent); width: 30px; height: 30px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; cursor: pointer;
+        transition: all 0.2s; font-size: 0.8rem;
+      }
+      .gallery-header-nav button:hover { background: rgba(200,200,200,0.25); transform: scale(1.1); }
+      #galleryCounter { color: var(--cv-accent); font-size: 0.8rem; font-weight: 600; min-width: 44px; text-align: center; }
+      .gallery-slideshow-btn {
+        background: rgba(200,200,200,0.1); border: 1px solid rgba(200,200,200,0.3);
+        color: var(--cv-accent); width: 30px; height: 30px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: all 0.2s; font-size: 0.75rem; margin-left: 4px;
+      }
+      .gallery-slideshow-btn:hover { background: rgba(200,200,200,0.25); }
+      .gallery-slideshow-btn.active { background: var(--cv-accent); color: var(--cv-accent-fg); animation: slideshowPulse 2s infinite; }
+      @keyframes slideshowPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(200,200,200,0.4); } 50% { box-shadow: 0 0 0 6px rgba(200,200,200,0); } }
+      #galleryModal .btn-close {
+        background: none; border: none; color: var(--cv-accent);
+        font-size: 1.1rem; opacity: 0.7; transition: all 0.2s; padding: 4px; margin-left: 6px;
+      }
+      #galleryModal .btn-close:hover { opacity: 1; transform: scale(1.15); }
+      #galleryModal .modal-body { padding: 0; background: #080808; position: relative; min-height: 300px; }
+      .gallery-image-container {
+        display: flex; align-items: center; justify-content: center;
+        min-height: 300px; max-height: 500px; overflow: hidden; position: relative;
+      }
+      #galleryMainImage { max-width: 100%; max-height: 500px; object-fit: contain; transition: opacity 0.3s ease; cursor: zoom-in; }
+      #galleryLoadingSpinner {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        display: none; color: var(--cv-accent);
+      }
+      .gallery-fade-in { animation: galleryFadeIn 0.3s ease; }
+      @keyframes galleryFadeIn { from { opacity: 0; } to { opacity: 1; } }
+      .gallery-bottom-bar { background: #0d0d0d; padding: 8px 14px; border-top: 1px solid rgba(200,200,200,0.15); }
+      .gallery-progress { height: 3px; background: rgba(200,200,200,0.15); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+      .gallery-progress.hidden { display: none; }
+      .gallery-progress-bar { height: 100%; background: var(--cv-accent); border-radius: 2px; transition: width 0.1s linear; width: 0%; }
+      .gallery-thumbnails { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; scrollbar-width: thin; }
+      .gallery-thumb {
+        width: 52px; height: 52px; border-radius: 6px; object-fit: cover;
+        border: 2px solid transparent; cursor: pointer; transition: all 0.2s;
+        opacity: 0.6; flex-shrink: 0;
+      }
+      .gallery-thumb:hover { opacity: 0.9; transform: scale(1.05); }
+      .gallery-thumb.active { border-color: var(--cv-accent); opacity: 1; box-shadow: 0 0 8px rgba(200,200,200,0.4); }
+
+      /* ===== PRESERVED: Theme Toggle Button (Old Navbar) ===== */
+      body.theme-transition,
+      body.theme-transition *,
+      body.theme-transition *::before,
+      body.theme-transition *::after {
+        transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease,
+                    box-shadow 0.35s ease, fill 0.35s ease, stroke 0.35s ease !important;
+      }
+      .theme-toggle-btn {
+        width: 32px; height: 32px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: all 0.3s ease; position: relative;
+        overflow: hidden; padding: 0; border: 1.5px solid rgba(200,200,200,0.5);
+        background: transparent; color: var(--cv-accent);
+      }
+      .theme-toggle-btn:hover { transform: scale(1.1); box-shadow: 0 0 15px rgba(200,200,200,0.4); }
+      .theme-toggle-btn .icon-sun { display: none; font-size: 0.85rem; }
+      .theme-toggle-btn .icon-moon { display: inline; font-size: 0.85rem; }
+      body.light-mode .theme-toggle-btn .icon-sun { display: inline; transform: rotate(180deg); }
+      body.light-mode .theme-toggle-btn .icon-moon { display: none; }
+      body.light-mode .theme-toggle-btn { border-color: #333; color: #333; }
+
+      /* Mobile Floating Theme Toggle */
+      #mobileThemeToggle {
+        display: none; position: fixed; bottom: 12px; right: 12px;
+        width: 48px; height: 48px; border-radius: 50%;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        border: 2px solid #ffffff; color: #ffffff; font-size: 1.1rem; cursor: pointer;
+        z-index: 9999; align-items: center; justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 18px #ffffff40, 0 0 6px #ffffff20 inset;
+        animation: themeBtnPulse 2.5s infinite;
+      }
+      @keyframes themeBtnPulse { 0%, 100% { box-shadow: 0 0 18px #ffffff40, 0 0 6px #ffffff20 inset; } 50% { box-shadow: 0 0 24px #ffffff60, 0 0 10px #ffffff30 inset; } }
+      #mobileThemeToggle:hover { transform: scale(1.1); box-shadow: 0 0 28px #ffffff70, 0 0 12px #ffffff40 inset; }
+      #mobileThemeToggle .icon-sun { display: none; }
+      #mobileThemeToggle .icon-moon { display: inline; }
+      body.light-mode #mobileThemeToggle .icon-sun { display: inline; }
+      body.light-mode #mobileThemeToggle .icon-moon { display: none; }
+      body.light-mode #mobileThemeToggle { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border-color: #ffffff; color: #ffffff; box-shadow: 0 0 18px #ffffff40, 0 0 6px #ffffff20 inset; }
+
+      /* ===== Buttons ===== */
+      .btn-primary { background: var(--cv-accent); color: var(--cv-accent-fg); border: none; font-weight: 700; box-shadow: 0 0 8px rgba(200,200,200,0.3); }
+      .btn-primary:hover, .btn-primary:focus { background: var(--cv-accent-2); color: var(--cv-accent-fg); box-shadow: 0 0 16px rgba(200,200,200,0.4); }
+
+
+      /* ===== Selection ===== */
+      ::selection { background: var(--cv-accent); color: var(--cv-accent-fg); }
+
+      /* ===== Print ===== */
+      @media print {
+        #mobileThemeToggle,
+        .gallery-side-btn { display: none !important; }
+        #cv-wrapper { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+
+
+
+    <!-- ===== CV LAYOUT ===== -->
+    <div id="cv-root">
+
+      <!-- RESUME WRAPPER -->
+      <div id="cv-wrapper">
+
+        <!-- LEFT SIDEBAR -->
+        <aside id="cv-sidebar">
+          <!-- Profile Block -->
+          <div id="cv-profile-block" class="text-center">
+            <div class="cv-photo-wrap">
+              <img src="./RUSSELS1.png" id="cv-profile-photo" alt="Jan Russel">
+            </div>
+            <h1 class="cv-name">Jan Russel E. Pe&ntilde;afiel</h1>
+            <p class="cv-title">Freelance Web Developer</p>
+            <span class="cv-badge">Open for Commissions</span>
+          </div>
+
+          <!-- Contact -->
+          <div class="cv-sidebar-section">
+            
+            <h2 class="cv-sidebar-heading">Contact <button class="cv-name-theme-btn" onclick="toggleTheme()" title="Switch theme"><i class="fas fa-moon icon-moon"></i><i class="fas fa-sun icon-sun"></i></button></h2>
+              <a href="https://calendly.com/janrusselpenafiel01172005" class="cv-quick-link" target="_blank">
+              <i class="fas fa-calendar-check"></i> Book Appointment
+            </a>
+            <div class="cv-contact-row"><i class="fas fa-map-marker-alt"></i> Santo Niño, South Cotabato</div>
+            <div class="cv-contact-row"><i class="fas fa-university"></i> SKSU &ndash; Isulan Campus</div>
+            <div class="cv-contact-row"><i class="fab fa-github"></i> <a href="https://github.com/Jan-Russel-Penafiel" target="_blank">GitHub</a></div>
+            <div class="cv-contact-row"><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/jan-russel-pe%C3%B1afiel-a1799036b" target="_blank">LinkedIn</a></div>
+            <div class="cv-contact-row"><i class="fab fa-facebook"></i> <a href="https://www.facebook.com/russelicioush" target="_blank">Facebook</a></div>
+          
+            <a href="https://www.facebook.com/share/1FMnnSXYZV/" class="cv-quick-link" target="_blank">
+              <i class="fas fa-users"></i> Team AsyncX
+            </a>
+            <a href="./resume.pdf" class="cv-quick-link" download>
+              <i class="fas fa-file-pdf"></i> Download Resume
+            </a>
+          </div>
+
+          <!-- Education -->
+          <div class="cv-sidebar-section">
+            <h2 class="cv-sidebar-heading">Education</h2>
+            <div class="cv-edu-block">
+              <p class="cv-edu-degree">BSIT &ndash; Bachelor of Science in Information Technology</p>
+              <p class="cv-edu-school">Sultan Kudarat State University</p>
+              <p class="cv-edu-year">2023 &ndash; Present</p>
+            </div>
+          </div>
+
+          <!-- Core Skills -->
+          <div class="cv-sidebar-section">
+            <h2 class="cv-sidebar-heading">Core Skills</h2>
+            <div class="cv-skills-list">
+              <span class="cv-skill-tag">PHP</span>
+              <span class="cv-skill-tag">CodeIgniter 4</span>
+              <span class="cv-skill-tag">JavaScript</span>
+              <span class="cv-skill-tag">Tailwind CSS</span>
+              <span class="cv-skill-tag">Bootstrap 5</span>
+              <span class="cv-skill-tag">MySQL</span>
+              <span class="cv-skill-tag">Git / GitHub</span>
+              <span class="cv-skill-tag">Full-Stack Dev</span>
+              <span class="cv-skill-tag">REST API</span>
+            </div>
+          </div>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main id="cv-main">
+
+          <!-- About Me -->
+          <section id="about" class="cv-section">
+            <h2 class="cv-section-title"><i class="fas fa-user-circle"></i> About Me</h2>
+            <div class="cv-about-body">
+              <p>Hey, I'm <strong>Jan Russel</strong> &mdash; a BSIT student at Sultan Kudarat State University &ndash; Isulan Campus and a Freelance Web Developer specializing in full-stack development.</p>
+              <ul class="cv-bullet-list">
+                <li>Specializing in web technologies &amp; full-stack development</li>
+                <li>Builds clean, functional, user-focused web applications</li>
+                <li>Covers government systems, POS, healthcare &amp; custom solutions</li>
+                <li>Turns ideas into production-ready systems fast &amp; efficiently</li>
+                <li>Uses AI-assisted development to accelerate without cutting standards</li>
+                <li>Solves problems methodically with maintainable code under pressure</li>
+                <li>Collaborative, delivers on time, and adapts quickly to new tools</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Experience -->
+          <section id="experience" class="cv-section">
+            <h2 class="cv-section-title"><i class="fas fa-briefcase"></i> Experience</h2>
+            <div class="cv-exp-card">
+              <div class="cv-exp-header">
+                <div>
+                  <h3 class="cv-exp-role">Freelance Web Developer</h3>
+                  <p class="cv-exp-place">Self-Employed &middot; Remote</p>
+                </div>
+                <div class="cv-exp-meta">
+                  <span class="cv-badge-outline">Currently Active</span>
+                  <span class="cv-exp-date">2024 &ndash; Present &middot; 2 yrs+</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Featured Projects -->
+          <section id="projects" class="cv-section">
+            <h2 class="cv-section-title"><i class="fas fa-code"></i> Featured Projects</h2>
+            <div class="cv-projects-grid">
+
+              <!-- Project 1 -->
+              <div class="cv-project-card" data-project-id="sksu-monitoring">
+                <div class="cv-project-header">
+                  <h3 class="cv-project-title">SKSU Scholarship Management System</h3>
+                  <div class="cv-project-badges">
+                    <span class="cv-badge-sm cv-badge-blue">My Capstone</span>
+                    <span class="cv-badge-sm cv-badge-yellow">Ongoing</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 2 -->
+              <div class="cv-project-card" data-project-id="russels-hr">
+                <div class="cv-project-header">
+                  <h3 class="cv-project-title">Russel's Chicken Delights HR System</h3>
+                  <div class="cv-project-badges">
+                    <span class="cv-badge-sm cv-badge-blue">Personal Project</span>
+                    <span class="cv-badge-sm cv-badge-green">Completed</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 3 -->
+              <div class="cv-project-card" data-project-id="kes-smart">
+                <div class="cv-project-header">
+                  <h3 class="cv-project-title">TAC-QR: Student Monitoring Application with Real-Time QR and SMS Notification 
+</h3>
+                  <div class="cv-project-badges">
+                    <span class="cv-badge-sm cv-badge-blue">Capstone</span>
+                    <span class="cv-badge-sm cv-badge-green">Completed</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 4 -->
+              <div class="cv-project-card" data-project-id="bhc-connect">
+                <div class="cv-project-header">
+                  <h3 class="cv-project-title">BHC-CONNECT: A Digital Barangay Health Center Services Information System
+</h3>
+                  <div class="cv-project-badges">
+                    <span class="cv-badge-sm cv-badge-blue">Capstone</span>
+                    <span class="cv-badge-sm cv-badge-green">Completed</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 5 -->
+              <div class="cv-project-card" data-project-id="healthconnect">
+                <div class="cv-project-header">
+                  <h3 class="cv-project-title">HealthConnect: Smart Mobile Application for Barangay Health Centers
+</h3>
+                  <div class="cv-project-badges">
+                    <span class="cv-badge-sm cv-badge-blue">Capstone</span>
+                    <span class="cv-badge-sm cv-badge-green">Completed</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 6 -->
+              <div class="cv-project-card" data-project-id="immucare">
+                <div class="cv-project-header">
+                  <h3 class="cv-project-title">ImmuCare: Smart Immunization Registry with Automated Scheduling System and Alerts</h3>
+                  <div class="cv-project-badges">
+                    <span class="cv-badge-sm cv-badge-blue">Capstone</span>
+                    <span class="cv-badge-sm cv-badge-green">Completed</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 7 -->
+              <div class="cv-project-card" data-project-id="aidtrack">
+                <div class="cv-project-header">
+                  <h3 class="cv-project-title">AidTrack: Real-Time Aid Monitoring, Distribution, and Tracking System with SMS Notification 
+</h3>
+                  <div class="cv-project-badges">
+                    <span class="cv-badge-sm cv-badge-blue">Capstone</span>
+                    <span class="cv-badge-sm cv-badge-green">Completed</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 8 -->
+              <div class="cv-project-card" data-project-id="bm-scapis">
+                <div class="cv-project-header">
+                  <h3 class="cv-project-title">BM-SCaPIS: Smart Clearance and Permit Issuance System with SMS Notification
+</h3>
+                  <div class="cv-project-badges">
+                    <span class="cv-badge-sm cv-badge-blue">Capstone</span>
+                    <span class="cv-badge-sm cv-badge-green">Completed</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- Dev Roadmap -->
+          <section id="roadmap" class="cv-section">
+            <h2 class="cv-section-title"><i class="fas fa-map"></i> Dev Roadmap</h2>
+            <div class="cv-timeline">
+              <div class="cv-timeline-item">
+                <div class="cv-timeline-dot"></div>
+                <div class="cv-timeline-content">
+                  <span class="cv-timeline-period">2023&ndash;2025</span>
+                  <h3 class="cv-timeline-title">The Foundation &amp; First Real Systems</h3>
+                  <p class="cv-timeline-desc">HTML5, CSS3, JavaScript, PHP, MySQL &middot; Real-world Healthcare and POS Systems &middot; CRUD, Authentication, Responsive Design</p>
+                </div>
+              </div>
+              <div class="cv-timeline-item">
+                <div class="cv-timeline-dot"></div>
+                <div class="cv-timeline-content">
+                  <span class="cv-timeline-period">2025&ndash;2026</span>
+                  <h3 class="cv-timeline-title">Frameworks &amp; Full-Stack Mastery</h3>
+                  <p class="cv-timeline-desc">Bootstrap 5, CodeIgniter 4, MVC Pattern &middot; Government Systems with REST APIs &amp; AJAX &middot; 5 commissioned capstone projects completed</p>
+                </div>
+              </div>
+              <div class="cv-timeline-item cv-timeline-active">
+                <div class="cv-timeline-dot"></div>
+                <div class="cv-timeline-content">
+                  <span class="cv-timeline-period">2026 (Now)</span>
+                  <h3 class="cv-timeline-title">AI-Assisted Development &amp; Beyond</h3>
+                  <p class="cv-timeline-desc">Gemini API &middot; UI/UX Design polish &middot; Clean Backend Architecture &middot; Open for Freelance Commissions</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Photo Gallery -->
+          <section id="gallery" class="cv-section">
+            <h2 class="cv-section-title"><i class="fas fa-images"></i> Photo Gallery</h2>
+            <p class="cv-gallery-subtitle">A collection of my favorite moments and memories.</p>
+            <div class="gallery-outer-container">
+              <button class="gallery-side-btn" type="button" data-bs-target="#photoGalleryCarousel" data-bs-slide="prev" aria-label="Previous">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <div class="gallery-carousel-wrapper">
+                <div id="photoGalleryCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+                  <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#photoGalleryCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#photoGalleryCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  </div>
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="uploads/self.jpg" class="d-block gallery-preview-trigger" alt="Gallery Photo 1" style="cursor:zoom-in">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="uploads/grupo.jpg" class="d-block gallery-preview-trigger" alt="Gallery Photo 2" style="cursor:zoom-in">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="gallery-side-btn" type="button" data-bs-target="#photoGalleryCarousel" data-bs-slide="next" aria-label="Next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer id="cv-footer">
+            <p>Date Created: 2024-03-19 &middot; Made with &hearts; by Jan Russel</p>
+          </footer>
+
+        </main><!-- end #cv-main -->
+
+      </div><!-- end #cv-wrapper -->
+
+    </div><!-- end #cv-root -->
+
+    <!-- Photo Gallery Fullscreen Preview Overlay -->
+    <div class="gallery-fullscreen-overlay" id="galleryFullscreenOverlay">
+      <button class="gallery-fullscreen-close" id="galleryFullscreenClose" title="Close (Esc)">&times;</button>
+      <button class="gallery-fullscreen-nav gallery-fullscreen-prev" id="galleryFullscreenPrev" title="Previous">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <img id="galleryFullscreenImage" src="" alt="Fullscreen Preview" />
+      <button class="gallery-fullscreen-nav gallery-fullscreen-next" id="galleryFullscreenNext" title="Next">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- IntersectionObserver for active nav links -->
+    <script>
+      (function() {
+        var sections = document.querySelectorAll('#cv-main .cv-section');
+        var navLinks = document.querySelectorAll('.cv-nav-link');
+        if (!sections.length || !navLinks.length) return;
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              var id = entry.target.id;
+              navLinks.forEach(function(link) {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + id) {
+                  link.classList.add('active');
+                }
+              });
+            }
+          });
+        }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+        sections.forEach(function(section) { observer.observe(section); });
+
+        // Smooth scroll for nav links
+        navLinks.forEach(function(link) {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      })();
+    </script>
+
+    <!-- Bootstrap JS (for Carousel & Navbar) -->
+    <script src="libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Dark/Light Mode Toggle Script -->
+    <script>
+      (function () {
+        // Exposed globally so profile upload can update them live
+        window._profilePhotos = {
+          light: "./RUSSELS.png",
+          dark: "./RUSSELS1.png"
+        };
+
+        // Apply saved theme IMMEDIATELY to prevent flash
+        var saved = localStorage.getItem("portfolio-theme");
+        if (saved === "light") {
+          document.body.classList.add("light-mode");
+        }
+
+        // Set correct profile photo on initial load (instant, no fade)
+        var _initPhoto = document.getElementById("cv-profile-photo");
+        if (_initPhoto) {
+          _initPhoto.src = (saved === "light") ? window._profilePhotos.light : window._profilePhotos.dark;
+        }
+
+        // Preload both images so swap is instant
+        var _preLight = new Image();
+        _preLight.src = window._profilePhotos.light;
+        var _preDark = new Image();
+        _preDark.src = window._profilePhotos.dark;
+
+        // Expose toggle function globally
+        window.toggleTheme = function () {
+          var profilePhoto = document.getElementById("cv-profile-photo");
+          var isLight = !document.body.classList.contains("light-mode");
+          var newPhoto = isLight ? window._profilePhotos.light : window._profilePhotos.dark;
+
+          // 1. Fade out the profile photo (300ms matches CSS opacity transition)
+          if (profilePhoto) {
+            profilePhoto.style.opacity = "0";
+          }
+
+          // 2. After photo fully faded, swap image + toggle theme together
+          setTimeout(function () {
+            // Swap image source while photo is invisible
+            if (profilePhoto) {
+              profilePhoto.src = newPhoto;
+            }
+
+            // Toggle theme class
+            document.body.classList.add("theme-transition");
+            document.body.classList.toggle("light-mode");
+            localStorage.setItem("portfolio-theme", isLight ? "light" : "dark");
+
+            // Update meta theme-color for mobile browsers
+            var metaTheme = document.querySelector('meta[name="theme-color"]');
+            if (!metaTheme) {
+              metaTheme = document.createElement("meta");
+              metaTheme.name = "theme-color";
+              document.head.appendChild(metaTheme);
+            }
+            metaTheme.content = isLight ? "#ffffff" : "#000000";
+
+            // 3. Fade photo back in
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                if (profilePhoto) {
+                  profilePhoto.style.opacity = "1";
+                }
+              });
+            });
+
+            // Remove transition class after everything settles
+            setTimeout(function () {
+              document.body.classList.remove("theme-transition");
+            }, 400);
+          }, 300);
+        };
+      })();
+    </script>
+
+
+
+    <!-- Smooth scrolling for navigation links -->
+    <script>
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+
+      // ===== Photo Gallery Fullscreen Preview =====
+      (function() {
+        const overlay = document.getElementById('galleryFullscreenOverlay');
+        const fsImage = document.getElementById('galleryFullscreenImage');
+        const fsClose = document.getElementById('galleryFullscreenClose');
+        const fsPrev = document.getElementById('galleryFullscreenPrev');
+        const fsNext = document.getElementById('galleryFullscreenNext');
+        if (!overlay) return;
+
+        let fsIndex = 0;
+
+        function getCarouselImages() {
+          const imgs = document.querySelectorAll('#photoGalleryCarousel .carousel-item img');
+          return Array.from(imgs).map(img => img.src);
+        }
+
+        function getActiveIndex() {
+          const items = document.querySelectorAll('#photoGalleryCarousel .carousel-item');
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].classList.contains('active')) return i;
+          }
+          return 0;
+        }
+
+        function openFullscreen(index) {
+          const images = getCarouselImages();
+          if (!images.length) return;
+          fsIndex = (typeof index === 'number') ? index : getActiveIndex();
+          if (fsIndex < 0) fsIndex = images.length - 1;
+          if (fsIndex >= images.length) fsIndex = 0;
+          // Set image directly on open — no fade-out needed
+          fsImage.src = images[fsIndex];
+          fsImage.style.opacity = '1';
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+          // Pause carousel
+          const carouselEl = document.getElementById('photoGalleryCarousel');
+          if (carouselEl) {
+            const bsCarousel = bootstrap.Carousel.getInstance(carouselEl);
+            if (bsCarousel) bsCarousel.pause();
+          }
+        }
+
+        function closeFullscreen() {
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+          // Resume carousel
+          const carouselEl = document.getElementById('photoGalleryCarousel');
+          if (carouselEl) {
+            const bsCarousel = bootstrap.Carousel.getInstance(carouselEl);
+            if (bsCarousel) bsCarousel.cycle();
+          }
+        }
+
+        function updateFullscreen(images) {
+          if (!images) images = getCarouselImages();
+          if (fsIndex < 0) fsIndex = images.length - 1;
+          if (fsIndex >= images.length) fsIndex = 0;
+          const newSrc = images[fsIndex];
+          // Sync carousel
+          const carouselEl = document.getElementById('photoGalleryCarousel');
+          if (carouselEl) {
+            const bsCarousel = bootstrap.Carousel.getInstance(carouselEl);
+            if (bsCarousel) bsCarousel.to(fsIndex);
+          }
+          // Smooth fade: fade out → swap src → fade in
+          fsImage.style.opacity = '0';
+          setTimeout(function() {
+            fsImage.src = newSrc;
+            fsImage.style.opacity = '1';
+          }, 250);
+        }
+
+        function fsNextSlide() {
+          fsIndex++;
+          updateFullscreen();
+        }
+
+        function fsPrevSlide() {
+          fsIndex--;
+          updateFullscreen();
+        }
+
+        // Click on carousel image opens fullscreen
+        document.addEventListener('click', function(e) {
+          const trigger = e.target.closest('.gallery-preview-trigger');
+          if (!trigger) return;
+          e.preventDefault();
+          e.stopPropagation();
+          openFullscreen(getActiveIndex());
+        });
+
+        // Close button
+        fsClose.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closeFullscreen();
+        });
+
+        // Click overlay background to close
+        overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) closeFullscreen();
+        });
+
+        // Nav buttons
+        fsNext.addEventListener('click', function(e) { e.stopPropagation(); fsNextSlide(); });
+        fsPrev.addEventListener('click', function(e) { e.stopPropagation(); fsPrevSlide(); });
+
+        // Keyboard navigation for fullscreen
+        document.addEventListener('keydown', function(e) {
+          if (!overlay.classList.contains('active')) return;
+          if (e.key === 'Escape') { e.preventDefault(); closeFullscreen(); }
+          else if (e.key === 'ArrowRight') { e.preventDefault(); fsNextSlide(); }
+          else if (e.key === 'ArrowLeft') { e.preventDefault(); fsPrevSlide(); }
+        });
+
+        // Touch swipe support for fullscreen
+        let touchStartX = 0;
+        overlay.addEventListener('touchstart', function(e) {
+          touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+        overlay.addEventListener('touchend', function(e) {
+          const diff = e.changedTouches[0].screenX - touchStartX;
+          if (Math.abs(diff) > 50) {
+            if (diff < 0) fsNextSlide();
+            else fsPrevSlide();
+          }
+        }, {passive: true});
+      })();
+
+    </script>
+
+    <!-- Hidden file input for gallery upload -->
+    <input type="file" id="galleryFileInput" accept="image/*" multiple style="display:none">
+
+    <script>
+      // ===== Photo Gallery Upload =====
+      function openGalleryUpload() {
+        var fi = document.getElementById('galleryFileInput');
+        if (fi) fi.click();
+      }
+
+      var _galleryInput = document.getElementById('galleryFileInput');
+      if (_galleryInput) {
+        _galleryInput.addEventListener('change', function(e) {
+          const files = Array.from(e.target.files || []);
+          if (!files.length) return;
+          uploadGalleryImages(files);
+          e.target.value = '';
+        });
+      }
+
+      function uploadGalleryImages(files) {
+        const formData = new FormData();
+        formData.append('action', 'gallery_upload');
+        files.forEach(function(file) {
+          formData.append('images[]', file);
+        });
+        showToggleNotification('<i class="fas fa-spinner fa-spin me-2"></i>Uploading to gallery...');
+        fetch('upload.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.success) {
+            showToggleNotification('<i class="fas fa-check-circle me-2"></i>Gallery updated! Reloading...');
+            setTimeout(function() { location.reload(); }, 1200);
+          } else {
+            showToggleNotification('<i class="fas fa-exclamation-circle me-2"></i>' + (data.message || 'Upload failed'));
+          }
+        })
+        .catch(function(err) {
+          showToggleNotification('<i class="fas fa-exclamation-circle me-2"></i>Upload error: ' + err.message);
+        });
+      }
+
+      document.addEventListener("click", function (e) {
+        const link = e.target.closest(".project-image-link");
+        if (!link) return;
+        e.preventDefault();
+        let images = [];
+        try {
+          images = JSON.parse(link.getAttribute("data-images") || "[]");
+        } catch (err) {
+          images = [];
+        }
+        if (!images.length && link.href) {
+          images = [link.href];
+        }
+        const card = link.closest(".project-card");
+        currentProjectId = card ? card.getAttribute("data-project-id") : null;
+        openGalleryModal(images, 0);
+      });
+
+      if (typeof prepareGalleryLinks === "function") {
+        document.addEventListener("DOMContentLoaded", prepareGalleryLinks);
+        prepareGalleryLinks();
+      }
+
+      // Close modal when clicking outside
+      var _uploadModal = document.getElementById("uploadModal");
+      if (_uploadModal) {
+        _uploadModal.addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeUploadModal();
+          }
+        });
+      }
+
+      // Profile Picture Upload Functions
+      let selectedProfileFile = null;
+
+      function handleProfileFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) { return; }
+        selectedProfileFile = file;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const preview = document.getElementById("profileUploadPreview");
+          if (preview) {
+            preview.src = e.target.result;
+            preview.classList.add("show");
+          }
+        };
+        reader.readAsDataURL(file);
+        const uploadBtn = document.getElementById("profileUploadBtn");
+        if (uploadBtn) { uploadBtn.style.display = "inline-block"; }
+        const profileUploadStatus = document.getElementById("profileUploadStatus");
+        if (profileUploadStatus) {
+          profileUploadStatus.innerHTML = "Profile image ready to upload.";
+        }
+        uploadProfilePictureDirectly(file);
+      }
+
+      function uploadProfilePicture() {
+        if (!selectedProfileFile) { return; }
+        uploadProfilePictureDirectly(selectedProfileFile);
+      }
+
+      function resetProfileUploadForm() {
+        const profileInput = document.getElementById("profileFileInput");
+        if (profileInput) { profileInput.value = ""; }
+        const profilePreview = document.getElementById("profileUploadPreview");
+        if (profilePreview) {
+          profilePreview.classList.remove("show");
+          profilePreview.removeAttribute("src");
+        }
+        const profileUploadBtn = document.getElementById("profileUploadBtn");
+        if (profileUploadBtn) { profileUploadBtn.style.display = "none"; }
+        const profileUploadStatus = document.getElementById("profileUploadStatus");
+        if (profileUploadStatus) { profileUploadStatus.innerHTML = ""; }
+        selectedProfileFile = null;
+      }
+
+      function uploadProfilePictureDirectly(file) {
+        if (!file.type.match("image.*")) {
+          alert("Please select an image file");
+          return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          alert("File size must be less than 5MB");
+          return;
+        }
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("action", "update_profile");
+        showToggleNotification("Uploading profile picture...");
+        fetch("upload.php", { method: "POST", body: formData })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              showToggleNotification("Profile picture updated!");
+              var newPath = data.data.path;
+              // Update the profile photo live (no reload needed)
+              var cvPhoto = document.getElementById("cv-profile-photo");
+              if (cvPhoto) { cvPhoto.src = newPath; }
+              var profilePicture = document.getElementById("profilePicture");
+              if (profilePicture) { profilePicture.src = newPath; }
+              var heroProfilePic = document.getElementById("heroProfilePicture");
+              if (heroProfilePic) { heroProfilePic.src = newPath; }
+              // Update theme photo paths so toggle stays in sync
+              if (window._profilePhotos) {
+                window._profilePhotos.light = newPath;
+                window._profilePhotos.dark = newPath;
+              }
+            } else {
+              showToggleNotification(data.message);
+            }
+          })
+          .catch((error) => {
+            showToggleNotification("Upload failed: " + error.message);
+          });
+      }
+
+      // Close modals when clicking outside
+      ["mainMenuModal"].forEach((modalId) => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.addEventListener("click", function (e) {
+            if (e.target === this) { this.classList.remove("active"); }
+          });
+        }
+      });
+    </script>
+
+    <!-- Performance & UI Optimizer -->
+    <script src="optimize.js" defer></script>
+
+  </body>
+</html>
